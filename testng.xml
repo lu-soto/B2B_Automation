@@ -1,0 +1,8 @@
+<suite name="Regression Suite" >
+    <test name = "MannheimAutomation"  verbose="10">
+        <classes>
+            <class name = "LoginTest"/>
+            <class name = "HomeTest"/>
+        </classes>
+    </test>
+</suite>
