@@ -18,6 +18,13 @@ public class LoginPage {
     public WebElement passWord;
     @FindBy(xpath = PageConstants.LOGIN_BTN)
     private WebElement logBtn;
+
+    public WebElement getLoginbutton() {
+        return loginbutton;
+    }
+
+    @FindBy(xpath = "//button[@title='Log in'][contains(.,'Log in')]")
+    private WebElement loginbutton;
     @FindBy(xpath = PageConstants.LOGO)
     public WebElement logo;
 
@@ -40,11 +47,12 @@ public class LoginPage {
     public WebElement getLogo(){
         return logo;
     }
+
     public void userLogin(WebDriver driver, String username, String password) throws InterruptedException {
-       // loginBtn.click();
+        getLoginbutton().click();
         driver.manage().timeouts().implicitlyWait(5000, TimeUnit.MILLISECONDS);
         getLoginUsername().sendKeys(username);
         getLoginPassword().sendKeys(password);
-        logBtn.click();
+        getLogBtn().click();
     }
 }
