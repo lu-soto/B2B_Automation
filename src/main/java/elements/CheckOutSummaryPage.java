@@ -22,6 +22,9 @@ public class CheckOutSummaryPage {
     @FindBy(xpath = "//input[@name='POInput']")
     public WebElement poInput;
 
+    @FindBy(xpath = "//button[contains(@type,'button')]")
+    public WebElement btnNext;
+
     public CheckOutSummaryPage(WebDriver driver){
         this.driver = driver;
         PageFactory.initElements(driver, this );
@@ -38,6 +41,9 @@ public class CheckOutSummaryPage {
     }
     public void unFocusPoInput() {
         poInput.sendKeys(Keys.TAB);
+    }
+    public void clickNext(){
+        btnNext.click();
     }
 
 }
