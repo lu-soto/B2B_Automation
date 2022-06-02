@@ -1,4 +1,6 @@
+import elements.HomePage;
 import elements.LoginPage;
+import elements.SearchResultsPage;
 import org.openqa.selenium.WebDriver;
 import org.openqa.selenium.chrome.ChromeDriver;
 import org.testng.annotations.*;
@@ -18,12 +20,13 @@ public class BaseTest {
 
     @BeforeTest
     public void setUp() throws Exception {
-        System.setProperty("webdriver.chrome.driver","C:\\Users\\blabla\\chromedriver_win32\\chromedriver.exe");
+        System.setProperty("webdriver.chrome.driver","C:\\Users\\mlsot\\Downloads\\chromedriver_win32\\chromedriver.exe");
         driver = new ChromeDriver();
-        driver.get("https://uat-mannheim.cs219.force.com/s/");
+        driver.get("https://b2b-lex-dev1.force.com/CloudSpirits/");
         driver.manage().window().maximize();
         LoginPage login = new LoginPage(driver);
         login.userLogin(driver, propertyReader.getUserName(), propertyReader.getUserPassword());
+
     }
     @AfterTest
     public void tearDown(){
