@@ -1,107 +1,105 @@
 package elements;
 
-import org.openqa.selenium.*;
+import org.openqa.selenium.By;
 import org.openqa.selenium.WebDriver;
 import org.openqa.selenium.WebElement;
 import org.openqa.selenium.support.FindBy;
 import org.openqa.selenium.support.PageFactory;
+import org.openqa.selenium.JavascriptExecutor;
 
-import java.util.concurrent.TimeUnit;
+import java.util.List;
 
-public class QuickOrderPage {
+public class SearchResultsPage {
     WebDriver driver;
 
-    @FindBy(xpath = "(//input[@placeholder='SKU'])[1]")
-    WebElement skuNumber;
-    @FindBy(xpath = "(//input[@placeholder='SKU'])[2]")
-    WebElement skuNumber2;
-    @FindBy(xpath = "(//input[@type='number'])[1]")
-    WebElement cantidadSKU;
-    @FindBy(xpath = "//button[contains(.,'+ Agregar Línea')]")
-    WebElement agregarLineaBtn;
-    @FindBy(xpath = "//button[contains(.,'AGREGAR AL CARRITO')]")
-    WebElement addToCartBtn;
+    //search results page elements
 
-
-    //Modal quickorder page
-    //@FindBy(xpath = "//div[contains(@class,'slds-modal__container')]")
-    @FindBy(xpath = "//div[contains(@id,'modal-content-8098')]")
-    WebElement modal;
-
-    public WebElement getVerCarritoBtn() {
-        return verCarritoBtn;
-    }
-
-    @FindBy(xpath = "//a[contains(.,'Ver carrito')]")
-    WebElement verCarritoBtn;
-    @FindBy(xpath = "//button[contains(.,'Seguir comprando')]")
-    WebElement seguirComprandoBtn;
-
-    //fin modal quickorderpage
-
-    public QuickOrderPage(WebDriver driver){
-        this.driver = driver;
-        PageFactory.initElements(driver, this );
-    }
-
-
-    public WebDriver getDriver() {
-        return driver;
-    }
-    public WebElement getSkuNumber() {
-        return skuNumber;
-    }
-    public WebElement getCantidadSKU() {
-        return cantidadSKU;
-    }
-    public WebElement getAgregarLineaBtn() {
-        return agregarLineaBtn;
-    }
-    public WebElement getAddToCartBtn() {
-        return addToCartBtn;
-    }
-    public WebElement getSkuNumber2() {
-        return skuNumber2;
+    public WebElement getAddCartBtn() {
+        return addCartBtn;
     }
 
     public WebElement getModal() {
         return modal;
     }
 
-    public WebElement getSeguirComprandoBtn() {
-        return seguirComprandoBtn;
+    public WebElement getViewCartBtn() {
+        return viewCartBtn;
     }
 
-
-    public void searchSKU1(){
-        JavascriptExecutor js = (JavascriptExecutor) driver;
-        driver.manage().timeouts().implicitlyWait(2000, TimeUnit.MILLISECONDS);
-        skuNumber.click();
-        skuNumber.sendKeys("002913536-3");
-        skuNumber.sendKeys(Keys.RETURN);
-    }
-    public void searchSKU2(){
-        JavascriptExecutor js = (JavascriptExecutor) driver;
-        driver.manage().timeouts().implicitlyWait(2000, TimeUnit.MILLISECONDS);
-        skuNumber2.click();
-        skuNumber2.sendKeys("001201006-0");
-        skuNumber2.sendKeys(Keys.RETURN);
+    public WebElement getProceedBtn() {
+        return proceedBtn;
     }
 
-    public void modalVerCarrito() throws InterruptedException {
+    public WebElement getFilter() {
+        return filter;
+    }
+
+    @FindBy(xpath = "//button[contains(.,'ADD TO CART')]")
+    private WebElement addCartBtn;
+    //@FindBy(xpath = "//h2[contains(@class,'slds-text-heading_medium slds-hyphenate')]")
+    @FindBy(xpath = "//h2[contains(.,'Item was added to cart')]")
+    private WebElement modal;
+    @FindBy(xpath = "//a[contains(text(),'View Cart')]")
+    private WebElement viewCartBtn;
+    @FindBy(xpath = "//button[contains(@title,'Proceed To Checkout')]")
+    private WebElement proceedBtn;
+    @FindBy(xpath = "//ul[contains(@role,'listbox')]")
+    private List<WebElement> searchResults;
+    @FindBy(xpath = "(//span[@class='slds-checkbox_faux'])[1]")
+    private WebElement filter;
+
+
+
+    //search results page methods
+
+
+    public void clickViewCart() throws InterruptedException {
+        // WebElement modal = driver.findElement(By.xpath("//a[contains(text(),'View Cart')]"));
+        // TODO : Investigate if switch should be here or not
+        //wait(5000);
+        modal.getText();
+        System.out.println(modal.getText());
         JavascriptExecutor executor = (JavascriptExecutor)driver;
-        executor.executeScript("arguments[0].click();", verCarritoBtn);
+        executor.executeScript("arguments[0].click();", viewCartBtn);
+        // viewCartBtn.click();
     }
-    public void modalSeguirComprando() throws InterruptedException {
-        JavascriptExecutor executor = (JavascriptExecutor)driver;
-        executor.executeScript("arguments[0].click();", seguirComprandoBtn);
+
+    public SearchResultsPage(WebDriver driver){
+        this.driver = driver;
+        PageFactory.initElements(driver, this );
     }
-    public void addCantidad(){
-        cantidadSKU.clear();
-        cantidadSKU.sendKeys("3");
+    public void addToCart() /*throws InterruptedException*/ {
+        //wait(5000);
+        addCartBtn.click();
     }
+   /* public void openProduct(){
+        verProductoBtn.click();
+    }*/
+
+   /* public void irAlCarrito() throws InterruptedException {
+        carritoBtn.click();
+    } */
+   /* public void verProducto(){
+        verProductoBtn.click();
+    }
+    public void verAplicaciones(){
+        aplicacionesLink.click();
+    }*/
+
+    public List<WebElement> getSearchResults() {
+        return searchResults;
+    }
+   public void agregarFiltro(){
+        getFilter().click();
+    }
+    public void liquidacionIsDisplayed(){
+        // load search results
+        List<WebElement> filteredResults = driver.findElements(By.xpath("//ul[contains(@role,'listbox')]"));
+        filteredResults.forEach(result -> {
+            assert result.findElement(By.xpath("(//p[@class='pill__label'][contains(.,'Liquidación')])")).isDisplayed();
+        });
+    }
+
 
 
 }
-
-
